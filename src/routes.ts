@@ -5,7 +5,7 @@ const router = Router();
 
 //criando uma rota principal para a aplicação
 router.get("/", (req: Request, res:Response) => {
-    res.json({ mensagem: "Teste de servidor para o sistema Biblioteca"});
+    res.json({ mensagem: "Teste de servidor para o sistema BibliOn"});
 });
 
 //exportando as rotas
