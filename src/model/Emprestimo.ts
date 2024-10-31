@@ -1,3 +1,7 @@
+import { DatabaseModel } from "./DatabaseModel";
+
+const database = new DatabaseModel().pool;
+
 /**
  * Classe que representa um empréstimo
  */
@@ -16,7 +20,7 @@ export class Emprestimo {
     /* Data de devolução do livro */
     private dataDevolucao: Date;
     /* Status do empréstimo do livro */
-    private statusEmprestimo: Date;
+    private statusEmprestimo: string;
 
     /**
      * Construtor da classe emprestimo
@@ -33,7 +37,7 @@ export class Emprestimo {
         idLivro: number,
         dataEmprestimo: Date,
         dataDevolucao: Date,
-        statusEmprestimo: Date
+        statusEmprestimo: string
     ){
         this.idAluno = idAluno;
         this.idLivro = idLivro;
@@ -56,7 +60,7 @@ export class Emprestimo {
      * @param idEmprestimo novo emprestimo a ser identificado
      */
     public setIdEmprestimo (idEmprestimo: number): void{
-        this.idEmprestimo;
+        this.idEmprestimo = idEmprestimo;
     }
 
     /**
@@ -127,7 +131,7 @@ export class Emprestimo {
      * Retorna a status do emprestimo
      * @returns {Date} A status do emprestimo
      */
-    public getStatusEmprestimo(): Date{
+    public getStatusEmprestimo(): string{
         return this.statusEmprestimo;
     }
 
@@ -135,8 +139,53 @@ export class Emprestimo {
      * Define a status do emprestimo
      * @param statusEmprestimo A status do emprestimo a ser definido
      */
-    public setStatusEmprestimo(statusEmprestimo:Date): void{
+    public setStatusEmprestimo(statusEmprestimo: string): void{
         this.statusEmprestimo = statusEmprestimo;
     }
 
+    /**
+      * Busca e retorna uma lista de Emprestimos do banco de dados.
+      * @returns Um array de objetos do tipo `Emprestimo` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
+      * 
+      * - A função realiza uma consulta SQL para obter todas as informações da tabela "Emprestimo".
+      * - Os dados retornados do banco de dados são usados para instanciar objetos da classe `Emprestimo`.
+      * - Cada Emprestimo é adicionado a uma lista que será retornada ao final da execução.
+      * - Se houver falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
+      */
+    static async listagemEmprestimos(): Promise<Array<Emprestimo> | null> {
+        // objeto para armazenar a lista de Emprestimos
+        const listaDeEmprestimos: Array<Emprestimo> = [];
+
+        try {
+            // query de consulta ao banco de dados
+            const querySelectEmprestimo = `SELECT * FROM emprestimo;`;
+
+            // fazendo a consulta e guardando a resposta
+            const respostaBD = await database.query(querySelectEmprestimo);
+
+            // usando a resposta para instanciar um objeto do tipo Emprestimo
+            respostaBD.rows.forEach((linha) => {
+                // instancia (cria) objeto Emprestimo
+                const novoEmprestimo = new Emprestimo(
+                    linha.id_aluno,
+                    linha.id_livro,
+                    linha.data_emprestimo,
+                    linha.data_devolucao,
+                    linha.status_emprestimo
+                );
+
+                // atribui o ID objeto
+                novoEmprestimo.setIdEmprestimo(linha.id_emprestimo);
+
+                // adiciona o objeto na lista
+                listaDeEmprestimos.push(novoEmprestimo);
+            });
+            
+            // retorna a lista de Emprestimos
+            return listaDeEmprestimos;
+        } catch (error) {
+            console.log('Erro ao buscar lista de Emprestimos');
+            return null;
+        }
+    }
 }
