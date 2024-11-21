@@ -84,7 +84,7 @@ export class Aluno {
      * @param ra O ra do aluno a ser definido
      */
     public setRa (ra:string): void{
-        this.ra;
+        this.ra = ra;
     }
 
     /**
@@ -192,7 +192,7 @@ export class Aluno {
         * - Cada Aluno instanciado é adicionado a uma lista que será retornada ao final da execução.
         * - Se houver uma falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
         */
-    static async listagemAlunos(): Promise<Array<Aluno> | null> {
+    static async listarAlunos(): Promise<Array<Aluno> | null> {
         const listaDeAlunos: Array<Aluno> = [];
 
         try {
@@ -218,6 +218,8 @@ export class Aluno {
                 novoAluno.setIdAluno(linha.id_aluno);
                 // atribui o RA objeto
                 novoAluno.setRa(linha.ra);
+
+                console.log(novoAluno);
 
                 // adiciona o objeto na lista
                 listaDeAlunos.push(novoAluno);
@@ -247,7 +249,7 @@ export class Aluno {
       * @throws {Error} - Se ocorrer algum erro durante a execução do cadastro, uma mensagem de erro é exibida
       *                   no console junto com os detalhes do erro.
     */
-    static async cadastroAluno(aluno: Aluno): Promise<boolean> {
+    static async cadastrarAluno(aluno: Aluno): Promise<boolean> {
         try {
             // query para fazer insert de um Aluno no banco de dados
             const queryInsertAluno = `INSERT INTO Aluno (nome, sobrenome, data_nascimento, endereco, email, celular)

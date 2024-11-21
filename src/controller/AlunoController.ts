@@ -27,7 +27,7 @@ export class AlunoController extends Aluno {
     static async todos(req: Request, res: Response): Promise<any> {
         try {
             // acessa a função de listar os Alunos e armazena o resultado
-            const listaDeAlunos = await Aluno.listagemAlunos();
+            const listaDeAlunos = await Aluno.listarAlunos();
 
             // retorna a lista de Alunos há quem fez a requisição web
             return res.status(200).json(listaDeAlunos);
@@ -69,7 +69,7 @@ export class AlunoController extends Aluno {
                 alunoRecebido.celular);
 
             // Chama a função de cadastro passando o objeto como parâmetro
-            const repostaClasse = await Aluno.cadastroAluno(novoAluno);
+            const repostaClasse = await Aluno.cadastrarAluno(novoAluno);
 
             // verifica a resposta da função
             if (repostaClasse) {

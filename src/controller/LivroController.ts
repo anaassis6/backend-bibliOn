@@ -31,7 +31,7 @@ export class LivroController extends Livro {
     static async todos(req: Request, res: Response): Promise<any> {
         try {
             // acessa a função de listar os Livros e armazena o resultado
-            const listaDeLivros = await Livro.listagemLivros();
+            const listaDeLivros = await Livro.listarLivros();
 
             // retorna a lista de Livros há quem fez a requisição web
             return res.status(200).json(listaDeLivros);
@@ -76,7 +76,7 @@ export class LivroController extends Livro {
                 livroRecebido.statusLivroEmprestado);
 
             // Chama a função de cadastro passando o objeto como parâmetro
-            const repostaClasse = await Livro.cadastroLivro(novoLivro);
+            const repostaClasse = await Livro.cadastrarLivro(novoLivro);
 
             // verifica a resposta da função
             if (repostaClasse) {

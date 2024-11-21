@@ -27,7 +27,7 @@ export class EmprestimoController extends Emprestimo {
     static async todos(req: Request, res: Response): Promise<any> {
         try {
             // acessa a função de listar os Emprestimos e armazena o resultado
-            const listaDeEmprestimos = await Emprestimo.listagemEmprestimos();
+            const listaDeEmprestimos = await Emprestimo.listarEmprestimos();
 
             // retorna a lista de Emprestimos há quem fez a requisição web
             return res.status(200).json(listaDeEmprestimos);

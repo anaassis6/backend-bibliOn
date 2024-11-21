@@ -152,7 +152,7 @@ export class Emprestimo {
       * - Cada Emprestimo é adicionado a uma lista que será retornada ao final da execução.
       * - Se houver falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
       */
-    static async listagemEmprestimos(): Promise<Array<Emprestimo> | null> {
+    static async listarEmprestimos(): Promise<Array<Emprestimo> | null> {
         // objeto para armazenar a lista de Emprestimos
         const listaDeEmprestimos: Array<Emprestimo> = [];
 

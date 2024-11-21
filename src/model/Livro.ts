@@ -234,7 +234,7 @@ export class Livro {
       * - Cada Livro é adicionado a uma lista que será retornada ao final da execução.
       * - Se houver falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
       */
-        static async listagemLivros(): Promise<Array<Livro> | null> {
+        static async listarLivros(): Promise<Array<Livro> | null> {
             // objeto para armazenar a lista de Livros
             const listaDeLivros: Array<Livro> = [];
     
@@ -291,7 +291,7 @@ export class Livro {
           * @throws {Error} - Se ocorrer algum erro durante a execução do cadastro, uma mensagem de erro é exibida
           *                   no console junto com os detalhes do erro.
         */
-        static async cadastroLivro(livro: Livro): Promise<boolean> {
+        static async cadastrarLivro(livro: Livro): Promise<boolean> {
             try {
                 // query para fazer insert de um Livro no banco de dados
                 const queryInsertLivro = `INSERT INTO livro (titulo, autor, editora, ano_publicacao, isbn, quant_total, quant_disponivel, valor_aquisicao, status_livro_emprestado)

@@ -47,6 +47,7 @@ CREATE TABLE Emprestimo (
     data_devolucao DATE,
     status_emprestimo VARCHAR (20)
 );
+
 SELECT * FROM emprestimo;
 SELECT * FROM aluno;
 SELECT * FROM livro;
