@@ -77,7 +77,7 @@ export class AlunoController extends Aluno {
                 return res.status(200).json({ mensagem: "Aluno cadastrado com sucesso!" });
             } else {
                 // retorno uma mensagem de erro
-                return res.status(400).json({ mensagem: "Erro ao cadastra o Aluno. Entre em contato com o administrador do sistema." })
+                return res.status(400).json({ mensagem: "Erro ao cadastrar o Aluno. Entre em contato com o administrador do sistema." })
             }
 
         } catch (error) {
@@ -86,6 +86,71 @@ export class AlunoController extends Aluno {
 
             // retorna uma mensagem de erro há quem chamou a mensagem
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o Aluno. Entre em contato com o administrador do sistema." });
+        }
+    }
+
+    static async remover(req: Request, res: Response): Promise<any> {
+        try {
+            // Recupera o ID do Aluno a partir dos parâmetros da requisição e converte para número.
+            const idAluno = parseInt(req.params.idAluno as string);
+
+            // Chama o método do modelo para remover o Aluno e armazena a resposta (true ou false).
+            const respostaModelo = await Aluno.removerAluno(idAluno);
+
+            // Verifica se a resposta do modelo indica que o Aluno foi removido com sucesso.
+            if (respostaModelo) {
+                // Retorna uma resposta HTTP com status 200 e mensagem de sucesso.
+                return res.status(200).json({ mensagem: "O Aluno foi removido com sucesso!" });
+            } else {
+                // Retorna uma resposta HTTP com status 400 e mensagem de erro.
+                return res.status(400).json({ mensagem: "Erro ao remover o Aluno. Entre em contato com o administrador do sistema." });
+            }
+        } catch (error) {
+            // Loga o erro no console para depuração.
+            console.log(`Erro ao remover o Aluno: ${error}`);
+
+            // Retorna uma resposta HTTP com status 400 e mensagem de erro genérica para o cliente.
+            return res.status(400).json({ mensagem: "Não foi possível remover o Aluno. Entre em contato com o administrador do sistema." });
+        }
+    }
+
+    static async atualizar(req: Request, res: Response): Promise<any> {
+        try {
+            // Recupera os dados do Aluno a serem atualizados do corpo da requisição.
+            const alunoRecebido: AlunoDTO = req.body;
+
+            // Recupera o ID do Aluno a ser atualizado a partir dos parâmetros da URL.
+            const idAlunoRecebido = parseInt(req.params.idAluno as string);
+
+            // Cria um novo objeto `Aluno` com os dados recebidos.
+            const alunoAtualizado = new Aluno( alunoRecebido.nome,
+                alunoRecebido.sobrenome,
+                alunoRecebido.dataNascimento,
+                alunoRecebido.endereco,
+                alunoRecebido.email,
+                alunoRecebido.celular               
+            );
+
+            // Define o ID do Aluno no objeto `AlunoAtualizado`.
+            alunoAtualizado.setIdAluno(idAlunoRecebido);
+
+            // Chama o método do modelo para atualizar o Aluno e armazena a resposta (true ou false).
+            const respostaModelo = await Aluno.atualizarAluno(alunoAtualizado);
+
+            // Verifica se a resposta do modelo indica que o aluno foi atualizado com sucesso.
+            if (respostaModelo) {
+                // Retorna uma resposta HTTP com status 200 e mensagem de sucesso.
+                return res.status(200).json({ mensagem: "Aluno atualizado com sucesso!" });
+            } else {
+                // Retorna uma resposta HTTP com status 400 e mensagem de erro.
+                return res.status(400).json({ mensagem: "Não foi possível atualizar o Aluno. Entre em contato com o administrador." });
+            }
+        } catch (error) {
+            // Loga o erro no console para depuração.
+            console.log(`Erro ao atualizar o Aluno: ${error}`);
+
+            // Retorna uma resposta HTTP com status 400 e mensagem de erro genérica.
+            return res.status(400).json({ mensagem: "Não foi possível atualizar o Aluno. Entre em contato com o administrador." });
         }
     }
 }

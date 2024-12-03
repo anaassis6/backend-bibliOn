@@ -1,0 +1,296 @@
+{
+	"info": {
+		"_postman_id": "d2852774-1924-4e3c-82b4-5b364baf14e9",
+		"name": "BIBLION",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38148784"
+	},
+	"item": [
+		{
+			"name": "LIVROS",
+			"item": [
+				{
+					"name": "LISTAR LIVROS",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response body is in JSON format\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response JSON has the expected structure\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('array').that.is.not.empty;\r",
+									"    responseData.forEach(function(item) {\r",
+									"        pm.expect(item).to.be.an('object');\r",
+									"        pm.expect(item).to.have.property('idLivro');\r",
+									"        pm.expect(item).to.have.property('titulo');\r",
+									"        pm.expect(item).to.have.property('autor');\r",
+									"        pm.expect(item).to.have.property('editora');\r",
+									"        pm.expect(item).to.have.property('anoPublicacao');\r",
+									"        pm.expect(item).to.have.property('isbn');\r",
+									"        pm.expect(item).to.have.property('quantTotal');\r",
+									"        pm.expect(item).to.have.property('quantDisponivel');\r",
+									"        pm.expect(item).to.have.property('valorAquisicao');\r",
+									"        pm.expect(item).to.have.property('statusLivroEmprestado');\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is set to application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/lista/livros",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"lista",
+								"livros"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve a list of books. The request does not include a request body, and the response is in JSON format with a status code of 200. The response contains an array of objects, each representing a book with properties such as idLivro, titulo, autor, editora, anoPublicacao, isbn, quantTotal, quantDisponivel, valorAquisicao, and statusLivroEmprestado."
+					},
+					"response": []
+				},
+				{
+					"name": "CADASTRO LIVRO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"Sociedade dos poetas mortos\",\r\n    \"autor\": \"Ava Dellaira\",\r\n    \"editora\": \"Seguinte\",\r\n    \"anoPublicacao\": \"2014\",\r\n    \"isbn\": \"9780374346676\",\r\n    \"quantTotal\": \"5\",\r\n    \"quantDisponivel\": \"5\",\r\n    \"valorAquisicao\": 31.00,\r\n    \"statusLivroEmprestado\": \"Em andamento\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/novo/livro",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"novo",
+								"livro"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETAR LIVRO",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/delete/livro/21",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"delete",
+								"livro",
+								"21"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ALUNOS",
+			"item": [
+				{
+					"name": "LISTAR ALUNOS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/lista/alunos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"lista",
+								"alunos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CADASTRO ALUNO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Felisberto 2024\",\r\n    \"sobrenome\": \"Feliz\",\r\n    \"dataNascimento\": \"1968/07/13\",\r\n    \"endereco\": \"Rua do Estádio, 456\",\r\n    \"email\": \"lucas@futebol.com\",\r\n    \"celular\": \"(16)987669432\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/novo/aluno",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"novo",
+								"aluno"
+							]
+						},
+						"description": "This API endpoint is used to create a new student record. The request should be sent as an HTTP POST to the specified URL. The request body should be in JSON format and include the following parameters:\n\n- nome (string): The first name of the student.\n    \n- sobrenome (string): The last name of the student.\n    \n- dataNascimento (string): The date of birth of the student in the format YYYY/MM/DD.\n    \n- endereco (string): The address of the student.\n    \n- email (string): The email address of the student.\n    \n- celular (string): The contact number of the student.\n    \n\nThe response to this request will include the details of the newly created student record."
+					},
+					"response": []
+				},
+				{
+					"name": "DELETAR ALUNO",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/delete/aluno/21",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"delete",
+								"aluno",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ATUALIZAR ALUNO",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Anais\",\r\n    \"sobrenome\": \"Feliz\",\r\n    \"dataNascimento\": \"1968/07/13\",\r\n    \"endereco\": \"Rua do tédio, 456\",\r\n    \"email\": \"anais@futebol.com\",\r\n    \"celular\": \"(16)987669432\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/atualizar/aluno/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"atualizar",
+								"aluno",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EMPRESTIMO",
+			"item": [
+				{
+					"name": "LISTAR EMPRESTIMO",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3333/lista/emprestimos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"lista",
+								"emprestimos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CADASTRO EMPRESTIMO",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id_livro\": \"18\",\r\n    \"id_aluno\": \"27\",\r\n    \"data_emprestimo\": \"2024-12-03\",\r\n    \"data_devolucao\": \"2024-12-09\",\r\n    \"status_emprestimo\": \"Em andamento\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/novo/emprestimo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"novo",
+								"emprestimo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

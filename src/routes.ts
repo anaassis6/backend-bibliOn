@@ -18,6 +18,10 @@ router.get("/", (req: Request, res:Response) => {
 router.get("/lista/alunos", AlunoController.todos);
 //Cadastro dos alunos
 router.post("/novo/aluno", AlunoController.novo);
+//Deletar os alunos
+router.delete("/delete/aluno/:idAluno", AlunoController.remover);
+//Atualizar os alunos
+router.put("/atualizar/aluno/:idAluno", AlunoController.atualizar);
 
 /*
 * ROTAS PARA LIVROS
@@ -26,11 +30,16 @@ router.post("/novo/aluno", AlunoController.novo);
 router.get("/lista/livros", LivroController.todos);
 //Cadastro dos livros
 router.post("/novo/livro", LivroController.novo);
+//Deletar os livros
+router.delete("/delete/livro/:idLivro", LivroController.remover);
 
 /*
 * ROTAS PARA EMPRESTIMOS 
 */
+//Listagem dos emprestimos
 router.get("/lista/emprestimos", EmprestimoController.todos);
+//Cadastro dos emprestimo
+router.post("/novo/emprestimo", EmprestimoController.novo);
 
 
 //exportando as rotas

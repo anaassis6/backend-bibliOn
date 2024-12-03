@@ -45,7 +45,7 @@ export class Aluno {
         email: string,
         celular: string
 
-    ){
+    ) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.dataNascimento = dataNascimento;
@@ -59,7 +59,7 @@ export class Aluno {
      * Recupera o id do aluno
      * @returns o id do aluno
      */
-    public getIdAluno():number{
+    public getIdAluno(): number {
         return this.idAluno;
     }
 
@@ -67,7 +67,7 @@ export class Aluno {
      * Atribui um valor ao id do aluno
      * @param idAluno novo aluno a ser identificado
      */
-    public setIdAluno (idAluno: number): void{
+    public setIdAluno(idAluno: number): void {
         this.idAluno = idAluno;
     }
 
@@ -75,7 +75,7 @@ export class Aluno {
      * Retorna o ra do aluno
      * @returns {string} O ra do aluno
      */
-    public getRa(): string{
+    public getRa(): string {
         return this.ra;
     }
 
@@ -83,7 +83,7 @@ export class Aluno {
      * Define o ra do aluno
      * @param ra O ra do aluno a ser definido
      */
-    public setRa (ra:string): void{
+    public setRa(ra: string): void {
         this.ra = ra;
     }
 
@@ -91,7 +91,7 @@ export class Aluno {
      * Retorna o nome do aluno
      * @returns {string} O nome do aluno
      */
-    public getNome():string{
+    public getNome(): string {
         return this.nome;
     }
 
@@ -99,7 +99,7 @@ export class Aluno {
      * Define o nome do aluno
      * @param nome O nome do aluno a ser definido
      */
-    public setNome(nome:string): void{
+    public setNome(nome: string): void {
         this.nome = nome;
     }
 
@@ -107,7 +107,7 @@ export class Aluno {
      * Retorna o sobrenome do aluno
      * @returns {string} O sobrenome do aluno
      */
-    public getSobrenome(): string{
+    public getSobrenome(): string {
         return this.sobrenome;
     }
 
@@ -115,7 +115,7 @@ export class Aluno {
      * Define o sobrenome do aluno
      * @param sobrenome O sobrenome do aluno a ser definido
      */
-    public setSobrenome(sobrenome:string): void{
+    public setSobrenome(sobrenome: string): void {
         this.sobrenome = sobrenome;
     }
 
@@ -123,7 +123,7 @@ export class Aluno {
      * Retorna a data de nascimento do aluno
      * @returns {Date} A data de nascimento do aluno
      */
-    public getDataNascimento(): Date{
+    public getDataNascimento(): Date {
         return this.dataNascimento;
     }
 
@@ -131,7 +131,7 @@ export class Aluno {
      * Define a data de nascimento do aluno
      * @param dataNascimento A data de nascimento do aluno a ser definida
      */
-    public setDataNascimento(dataNascimento: Date): void{
+    public setDataNascimento(dataNascimento: Date): void {
         this.dataNascimento = dataNascimento;
     }
 
@@ -139,7 +139,7 @@ export class Aluno {
      * Retorna o endereço do aluno
      * @returns {string} O endereço do aluno
      */
-    public getEndereco(): string{
+    public getEndereco(): string {
         return this.endereco;
     }
 
@@ -147,15 +147,15 @@ export class Aluno {
      * Define o endereço do aluno
      * @param endereco O endereço do aluno a ser definido
      */
-    public setEndereco(endereco: string): void{
+    public setEndereco(endereco: string): void {
         this.endereco = endereco;
     }
 
-     /**
-     * Retorna o email do aluno
-     * @returns {string} O email do aluno
-     */
-     public getEmail(): string{
+    /**
+    * Retorna o email do aluno
+    * @returns {string} O email do aluno
+    */
+    public getEmail(): string {
         return this.email;
     }
 
@@ -163,15 +163,15 @@ export class Aluno {
      * Define o email do aluno
      * @param email O email do aluno a ser definido
      */
-    public setEmail(email: string): void{
+    public setEmail(email: string): void {
         this.email = email;
     }
 
-     /**
-     * Retorna o celular do aluno
-     * @returns {string} O celular do aluno
-     */
-     public getCelular(): string{
+    /**
+    * Retorna o celular do aluno
+    * @returns {string} O celular do aluno
+    */
+    public getCelular(): string {
         return this.celular;
     }
 
@@ -179,10 +179,10 @@ export class Aluno {
      * Define o celular do aluno
      * @param celular O celular do aluno a ser definido
      */
-    public setCelular(celular: string): void{
+    public setCelular(celular: string): void {
         this.celular = celular;
     }
-    
+
     /**
         * Busca e retorna uma lista de Alunos do banco de dados.
         * @returns Um array de objetos do tipo `Aluno` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
@@ -198,11 +198,11 @@ export class Aluno {
         try {
             // query de consulta ao banco de dados
             const querySelectAluno = `SELECT * FROM aluno`;
-            
-             // fazendo a consulta e guardando a resposta
+
+            // fazendo a consulta e guardando a resposta
             const respostaBD = await database.query(querySelectAluno);
 
-             // usando a resposta para instanciar um objeto do tipo aluno
+            // usando a resposta para instanciar um objeto do tipo aluno
             respostaBD.rows.forEach((linha) => {
                 // instancia (cria) objeto aluno
                 const novoAluno = new Aluno(
@@ -283,5 +283,71 @@ export class Aluno {
             // retorno um valor falso
             return false;
         }
+    }
+
+    static async removerAluno(idAluno: number): Promise<boolean> {
+        try {
+            // Cria uma query SQL para deletar o Aluno do banco de dados baseado no ID.
+            const queryDeleteAluno = `DELETE FROM Aluno WHERE id_Aluno = ${idAluno}`;
+
+            // Executa a query no banco de dados e armazena a resposta.
+            const respostaBD = await database.query(queryDeleteAluno);
+
+            // Verifica se alguma linha foi afetada pela operação de exclusão.
+            if (respostaBD.rowCount != 0) {
+                // Loga uma mensagem de sucesso no console indicando que o Aluno foi removido.
+                console.log(`Aluno removido com sucesso! ID removido: ${idAluno}`);
+                // Retorna `true` para indicar sucesso na remoção.
+                return true;
+            }
+
+            // Retorna `false` se nenhuma linha foi afetada (nenhum Aluno removido).
+            return false;
+
+        } catch (error) {
+            // Exibe uma mensagem de erro no console caso ocorra uma exceção.
+            console.log('Erro ao remover Aluno. Verifique os logs para mais detalhes.');
+            // Loga o erro no console para depuração.
+            console.log(error);
+            // Retorna `false` indicando que a remoção falhou.
+            return false;
+        }
+    }
+
+    static async atualizarAluno(aluno: Aluno): Promise<boolean> {
+        try {
+            // Cria uma query SQL para atualizar os dados do Aluno no banco de dados.
+            const queryUpdateAluno = `UPDATE Aluno SET
+                                        nome = '${aluno.getNome()}',
+                                        sobrenome = '${aluno.getSobrenome()}',
+                                        data_nascimento = '${aluno.getDataNascimento()}',
+                                        endereco = '${aluno.getEndereco()}',
+                                        email = '${aluno.getEmail()}',
+                                        celular = '${aluno.getCelular()}'                                        
+                                      WHERE id_aluno = ${aluno.getIdAluno()};`;
+
+            // Executa a query no banco de dados e armazena a resposta.
+            const respostaBD = await database.query(queryUpdateAluno);
+
+            // Verifica se alguma linha foi alterada pela operação de atualização.
+            if (respostaBD.rowCount != 0) {
+                // Loga uma mensagem de sucesso no console indicando que o Aluno foi atualizado.
+                console.log(`Aluno atualizado com sucesso! ID: ${aluno.getIdAluno()}`);
+                // Retorna `true` para indicar sucesso na atualização.
+                return true;
+            }
+
+            // Retorna `false` se nenhuma linha foi alterada (atualização não realizada).
+            return false;
+
+        } catch (error) {
+            // Exibe uma mensagem de erro no console caso ocorra uma exceção.
+            console.log('Erro ao atualizar o Aluno. Verifique os logs para mais detalhes.');
+            // Loga o erro no console para depuração.
+            console.log(error);
+            // Retorna `false` indicando que a atualização falhou.
+            return false;
+        }
+
     }
 }

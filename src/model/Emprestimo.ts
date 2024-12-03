@@ -38,7 +38,7 @@ export class Emprestimo {
         dataEmprestimo: Date,
         dataDevolucao: Date,
         statusEmprestimo: string
-    ){
+    ) {
         this.idAluno = idAluno;
         this.idLivro = idLivro;
         this.dataEmprestimo = dataEmprestimo;
@@ -51,7 +51,7 @@ export class Emprestimo {
      * Recupera o id do emprestimo
      * @returns o id do emprestimo
      */
-    public getIdEmprestimo():number{
+    public getIdEmprestimo(): number {
         return this.idEmprestimo;
     }
 
@@ -59,7 +59,7 @@ export class Emprestimo {
      * Atribui um valor ao id do emprestimo
      * @param idEmprestimo novo emprestimo a ser identificado
      */
-    public setIdEmprestimo (idEmprestimo: number): void{
+    public setIdEmprestimo(idEmprestimo: number): void {
         this.idEmprestimo = idEmprestimo;
     }
 
@@ -67,7 +67,7 @@ export class Emprestimo {
      * Retorna o id do Aluno
      * @returns {number} O id do Aluno 
      */
-    public getIdAluno(): number{
+    public getIdAluno(): number {
         return this.idAluno;
     }
 
@@ -75,7 +75,7 @@ export class Emprestimo {
      * Define o id do Aluno 
      * @param idAluno O id do Aluno a ser definido
      */
-    public setIdAluno (idAluno:number): void{
+    public setIdAluno(idAluno: number): void {
         this.idAluno = idAluno;
     }
 
@@ -83,7 +83,7 @@ export class Emprestimo {
      * Retorna o id do Livro 
      * @returns {number} O id do Livro 
      */
-    public getIdLivro():number{
+    public getIdLivro(): number {
         return this.idLivro;
     }
 
@@ -91,7 +91,7 @@ export class Emprestimo {
      * Define o id do Livro 
      * @param idLivro O id do Livro a ser definido
      */
-    public setIdLivro(idLivro:number): void{
+    public setIdLivro(idLivro: number): void {
         this.idLivro = idLivro;
     }
 
@@ -99,7 +99,7 @@ export class Emprestimo {
      * Retorna a data do emprestimo
      * @returns {Date} A data do emprestimo
      */
-    public getDataEmprestimo(): Date{
+    public getDataEmprestimo(): Date {
         return this.dataEmprestimo;
     }
 
@@ -107,7 +107,7 @@ export class Emprestimo {
      * Define a data do emprestimo
      * @param dataEmprestimo A data do emprestimo a ser definido
      */
-    public setDataEmprestimo(dataEmprestimo:Date): void{
+    public setDataEmprestimo(dataEmprestimo: Date): void {
         this.dataEmprestimo = dataEmprestimo;
     }
 
@@ -115,7 +115,7 @@ export class Emprestimo {
      * Retorna a data de devolucao do emprestimo
      * @returns {Date} A data de devolucao do emprestimo
      */
-    public getDataDevolucao(): Date{
+    public getDataDevolucao(): Date {
         return this.dataDevolucao;
     }
 
@@ -123,7 +123,7 @@ export class Emprestimo {
      * Define a data de devolucao do emprestimo
      * @param dataDevolucao A data de devolucao do emprestimo a ser definida
      */
-    public setDataDevolucao(dataDevolucao: Date): void{
+    public setDataDevolucao(dataDevolucao: Date): void {
         this.dataDevolucao = dataDevolucao;
     }
 
@@ -131,7 +131,7 @@ export class Emprestimo {
      * Retorna a status do emprestimo
      * @returns {Date} A status do emprestimo
      */
-    public getStatusEmprestimo(): string{
+    public getStatusEmprestimo(): string {
         return this.statusEmprestimo;
     }
 
@@ -139,7 +139,7 @@ export class Emprestimo {
      * Define a status do emprestimo
      * @param statusEmprestimo A status do emprestimo a ser definido
      */
-    public setStatusEmprestimo(statusEmprestimo: string): void{
+    public setStatusEmprestimo(statusEmprestimo: string): void {
         this.statusEmprestimo = statusEmprestimo;
     }
 
@@ -180,12 +180,61 @@ export class Emprestimo {
                 // adiciona o objeto na lista
                 listaDeEmprestimos.push(novoEmprestimo);
             });
-            
+
             // retorna a lista de Emprestimos
             return listaDeEmprestimos;
         } catch (error) {
             console.log('Erro ao buscar lista de Emprestimos');
             return null;
+        }
+    }
+    /**
+         * Realiza o cadastro de um Emprestimo no banco de dados.
+         * 
+         * Esta função recebe um objeto do tipo Emprestimo e insere seus dados (id_livro, id_aluno, data_emprestimo, data_devolucao, 
+         * status_emprestimo)
+         * na tabela emprestimo do banco de dados. O método retorna um valor booleano indicando se o cadastro 
+         * foi realizado com sucesso.
+         * @param {Emprestimo} emprestimo - Objeto contendo os dados do emprestimoVenda que será cadastrado. O objeto Emprestimo
+        deve conter os métodos getIdLivro(), getIdAluno(), getDataEmprestimo(), `getDataDevolucao(), getStatusEmprestimo()
+        que retornam os respectivos valores do emprestimo.
+         * @returns {Promise<boolean>} - Retorna true se o Emprestimo foi cadastrado com sucesso e false caso contrário.
+          Em caso de erro durante o processo, a função trata o erro e retorna false.
+         * @throws {Error} - Se ocorrer algum erro durante a execução do cadastro, uma mensagem de erro é exibida
+          no console junto com os detalhes do erro.
+         */
+    static async cadastroEmprestimo(emprestimo: Emprestimo): Promise<boolean> {
+        try {
+            // query para fazer insert de um Emprestimo no banco de dados
+            const queryInsertEmprestimo = `INSERT INTO emprestimo (id_livro, id_aluno, data_emprestimo, data_devolucao, status_emprestimo)
+                                    VALUES
+                                    ('${emprestimo.getIdLivro()}', 
+                                    '${emprestimo.getIdAluno()}',
+                                    '${emprestimo.getDataEmprestimo()}',
+                                    '${emprestimo.getDataDevolucao()}',
+                                    '${emprestimo.getStatusEmprestimo()}')
+                                    RETURNING id_emprestimo;`;
+
+            // executa a query no banco e armazena a resposta
+            const respostaBD = await database.query(queryInsertEmprestimo);
+
+            // verifica se a quantidade de linhas modificadas é diferente de 0
+            if (respostaBD.rowCount != 0) {
+                console.log(`Emprestimo cadastrado com sucesso! ID do Emprestimo: ${ respostaBD.rows[0].id_emprestimo}`);
+                // true significa que o cadastro foi feito
+                return true;
+            }
+            // false significa que o cadastro NÃO foi feito.
+            return false;
+
+            // tratando o erro
+        } catch (error) {
+            // imprime outra mensagem junto com o erro
+            console.log('Erro ao cadastrar o Emprestimo. Verifique os logs para mais detalhes.');
+            // imprime o erro no console
+            console.log(error);
+            // retorno um valor falso
+            return false;
         }
     }
 }
