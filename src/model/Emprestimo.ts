@@ -220,7 +220,7 @@ export class Emprestimo {
 
             // verifica se a quantidade de linhas modificadas é diferente de 0
             if (respostaBD.rowCount != 0) {
-                console.log(`Emprestimo cadastrado com sucesso! ID do Emprestimo: ${ respostaBD.rows[0].id_emprestimo}`);
+                console.log(`Emprestimo cadastrado com sucesso! ID do Emprestimo: ${respostaBD.rows[0].id_emprestimo}`);
                 // true significa que o cadastro foi feito
                 return true;
             }

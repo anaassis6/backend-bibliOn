@@ -81,9 +81,9 @@ export class EmprestimoController extends Emprestimo {
             }
 
         } catch (error) {
-            
+
             // lança uma mensagem de erro no console
-            console.log(`Erro ao cadastrar um Emprestimo.${ error }`);
+            console.log(`Erro ao cadastrar um Emprestimo.${error}`);
 
             // retorna uma mensagem de erro há quem chamou a mensagem
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o Emprestimo. Entre em contato com o administrador do sistema." });

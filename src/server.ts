@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import {router} from './routes';
+import { router } from './routes';
 
 //cria o servidor express
 const server = express();
@@ -13,4 +13,4 @@ server.use(express.json());
 server.use(router);
 
 //exporta o servidor 
-export{server};
+export { server };

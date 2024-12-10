@@ -123,12 +123,12 @@ export class AlunoController extends Aluno {
             const idAlunoRecebido = parseInt(req.params.idAluno as string);
 
             // Cria um novo objeto `Aluno` com os dados recebidos.
-            const alunoAtualizado = new Aluno( alunoRecebido.nome,
+            const alunoAtualizado = new Aluno(alunoRecebido.nome,
                 alunoRecebido.sobrenome,
                 alunoRecebido.dataNascimento,
                 alunoRecebido.endereco,
                 alunoRecebido.email,
-                alunoRecebido.celular               
+                alunoRecebido.celular
             );
 
             // Define o ID do Aluno no objeto `AlunoAtualizado`.
