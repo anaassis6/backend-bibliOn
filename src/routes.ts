@@ -32,6 +32,8 @@ router.get("/lista/livros", LivroController.todos);
 router.post("/novo/livro", LivroController.novo);
 //Deletar os livros
 router.delete("/delete/livro/:idLivro", LivroController.remover);
+//Atualizar os livros
+router.put("/atualizar/livro/:idLivro", LivroController.atualizar);
 
 /*
 * ROTAS PARA EMPRESTIMOS 
@@ -40,6 +42,8 @@ router.delete("/delete/livro/:idLivro", LivroController.remover);
 router.get("/lista/emprestimos", EmprestimoController.todos);
 //Cadastro dos emprestimo
 router.post("/novo/emprestimo", EmprestimoController.novo);
+//Atualizar os emprestimos
+router.put("/atualizar/emprestimo/:idEmprestimo", EmprestimoController.atualizar)
 
 
 //exportando as rotas

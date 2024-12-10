@@ -226,14 +226,14 @@ export class Livro {
     }
 
     /**
-  * Busca e retorna uma lista de Livros do banco de dados.
-  * @returns Um array de objetos do tipo `Livro` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
-  * 
-  * - A função realiza uma consulta SQL para obter todas as informações da tabela "Livro".
-  * - Os dados retornados do banco de dados são usados para instanciar objetos da classe `Livro`.
-  * - Cada Livro é adicionado a uma lista que será retornada ao final da execução.
-  * - Se houver falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
-  */
+    * Busca e retorna uma lista de Livros do banco de dados.
+    * @returns Um array de objetos do tipo `Livro` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
+    * 
+    * - A função realiza uma consulta SQL para obter todas as informações da tabela "Livro".
+    * - Os dados retornados do banco de dados são usados para instanciar objetos da classe `Livro`.
+    * - Cada Livro é adicionado a uma lista que será retornada ao final da execução.
+    * - Se houver falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
+    */
     static async listarLivros(): Promise<Array<Livro> | null> {
         // objeto para armazenar a lista de Livros
         const listaDeLivros: Array<Livro> = [];
@@ -330,6 +330,15 @@ export class Livro {
         }
     }
 
+    /**
+    * Remove um Livro do banco de dados.
+    * 
+    * Este método recebe o ID de um Livro e executa uma query SQL para removê-lo do banco.
+    * Retorna `true` se a remoção foi bem-sucedida e `false` caso contrário.
+    *
+    * @param {number} idLivro - ID do Livro a ser removido.
+    * @returns {Promise<boolean>} - Retorna `true` se o Livro foi removido com sucesso e `false` em caso de falha.
+    */
     static async removerLivro(idLivro: number): Promise<boolean> {
         try {
             // Cria uma query SQL para deletar o livro do banco de dados baseado no ID.
@@ -359,4 +368,52 @@ export class Livro {
         }
     }
 
+    /**
+  * Atualiza os dados de um Livro no banco de dados.
+  * 
+  * Este método recebe um objeto `Livro` contendo os novos dados e executa uma query SQL
+  * para atualizar as informações no banco. Retorna `true` se a atualização foi bem-sucedida
+  * e `false` caso contrário.
+  *
+  * @param {Livro} livro - Objeto contendo os dados atualizados do Livro.
+  * @returns {Promise<boolean>} - Retorna `true` se o Livro foi atualizado com sucesso e `false` em caso de falha.
+  */
+    static async atualizarLivro(livro: Livro): Promise<boolean> {
+        try {
+            // Cria uma query SQL para atualizar os dados do Livro no banco de dados.
+            const queryUpdateLivro = `UPDATE Livro SET
+                                    titulo = '${livro.getTitulo()}',
+                                    autor = '${livro.getAutor()}',
+                                    editora = '${livro.getEditora()}',
+                                    ano_publicacao = '${livro.getAnoPublicacao()}',
+                                    isbn = '${livro.getIsbn()}',
+                                    quant_total = '${livro.getQuantTotal()}',
+                                    quant_disponivel = '${livro.getQuantDisponivel()}',
+                                    valor_aquisicao = '${livro.getValorAquisicao()}',
+                                    status_livro_emprestado = '${livro.getStatusLivroEmprestado()}'                                        
+                                  WHERE id_livro = ${livro.getIdLivro()};`;
+
+            // Executa a query no banco de dados e armazena a resposta.
+            const respostaBD = await database.query(queryUpdateLivro);
+
+            // Verifica se alguma linha foi alterada pela operação de atualização.
+            if (respostaBD.rowCount != 0) {
+                // Loga uma mensagem de sucesso no console indicando que o Livro foi atualizado.
+                console.log(`Livro atualizado com sucesso! ID: ${livro.getIdLivro()}`);
+                // Retorna `true` para indicar sucesso na atualização.
+                return true;
+            }
+
+            // Retorna `false` se nenhuma linha foi alterada (atualização não realizada).
+            return false;
+
+        } catch (error) {
+            // Exibe uma mensagem de erro no console caso ocorra uma exceção.
+            console.log('Erro ao atualizar o Livro. Verifique os logs para mais detalhes.');
+            // Loga o erro no console para depuração.
+            console.log(error);
+            // Retorna `false` indicando que a atualização falhou.
+            return false;
+        }
+    }
 }

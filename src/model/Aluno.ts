@@ -184,14 +184,14 @@ export class Aluno {
     }
 
     /**
-        * Busca e retorna uma lista de Alunos do banco de dados.
-        * @returns Um array de objetos do tipo `Aluno` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
-        * 
-        * - A função realiza uma consulta SQL para obter todos os registros da tabela "Aluno".
-        * - Os dados retornados são utilizados para instanciar objetos da classe `Aluno`.
-        * - Cada Aluno instanciado é adicionado a uma lista que será retornada ao final da execução.
-        * - Se houver uma falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
-        */
+    * Busca e retorna uma lista de Alunos do banco de dados.
+    * @returns Um array de objetos do tipo `Aluno` em caso de sucesso ou `null` se ocorrer um erro durante a consulta.
+    * 
+    * - A função realiza uma consulta SQL para obter todos os registros da tabela "Aluno".
+    * - Os dados retornados são utilizados para instanciar objetos da classe `Aluno`.
+    * - Cada Aluno instanciado é adicionado a uma lista que será retornada ao final da execução.
+    * - Se houver uma falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
+    */
     static async listarAlunos(): Promise<Array<Aluno> | null> {
         const listaDeAlunos: Array<Aluno> = [];
 
@@ -285,6 +285,15 @@ export class Aluno {
         }
     }
 
+    /**
+    * Remove um Aluno do banco de dados.
+    * 
+    * Este método recebe o ID de um Aluno e executa uma query SQL para removê-lo do banco.
+    * Retorna `true` se a remoção foi bem-sucedida e `false` caso contrário.
+    *
+    * @param {number} idAluno - ID do Aluno a ser removido.
+    * @returns {Promise<boolean>} - Retorna `true` se o Aluno foi removido com sucesso e `false` em caso de falha.
+    */
     static async removerAluno(idAluno: number): Promise<boolean> {
         try {
             // Cria uma query SQL para deletar o Aluno do banco de dados baseado no ID.
@@ -314,17 +323,27 @@ export class Aluno {
         }
     }
 
+    /**
+     * Atualiza os dados de um Aluno no banco de dados.
+     * 
+     * Este método recebe um objeto `Aluno` contendo os novos dados e executa uma query SQL
+     * para atualizar as informações no banco. Retorna `true` se a atualização foi bem-sucedida
+     * e `false` caso contrário.
+     *
+     * @param {Aluno} aluno - Objeto contendo os dados atualizados do Aluno.
+     * @returns {Promise<boolean>} - Retorna `true` se o Aluno foi atualizado com sucesso e `false` em caso de falha.
+     */
     static async atualizarAluno(aluno: Aluno): Promise<boolean> {
         try {
             // Cria uma query SQL para atualizar os dados do Aluno no banco de dados.
             const queryUpdateAluno = `UPDATE Aluno SET
-                                        nome = '${aluno.getNome()}',
-                                        sobrenome = '${aluno.getSobrenome()}',
-                                        data_nascimento = '${aluno.getDataNascimento()}',
-                                        endereco = '${aluno.getEndereco()}',
-                                        email = '${aluno.getEmail()}',
-                                        celular = '${aluno.getCelular()}'                                        
-                                      WHERE id_aluno = ${aluno.getIdAluno()};`;
+                                    nome = '${aluno.getNome()}',
+                                    sobrenome = '${aluno.getSobrenome()}',
+                                    data_nascimento = '${aluno.getDataNascimento()}',
+                                    endereco = '${aluno.getEndereco()}',
+                                    email = '${aluno.getEmail()}',
+                                    celular = '${aluno.getCelular()}'                                        
+                                  WHERE id_aluno = ${aluno.getIdAluno()};`;
 
             // Executa a query no banco de dados e armazena a resposta.
             const respostaBD = await database.query(queryUpdateAluno);
@@ -348,6 +367,5 @@ export class Aluno {
             // Retorna `false` indicando que a atualização falhou.
             return false;
         }
-
     }
 }

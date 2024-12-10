@@ -9,6 +9,7 @@ interface AlunoDTO {
     email: string,
     celular: string
 }
+
 /**
  * A classe `AlunoController` estende a classe `Aluno` e é responsável por controlar as requisições relacionadas aos Alunos.
  * 
@@ -88,7 +89,18 @@ export class AlunoController extends Aluno {
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o Aluno. Entre em contato com o administrador do sistema." });
         }
     }
-
+    /**
+     * Remove um Aluno do banco de dados.
+     *
+     * Este método recebe uma requisição HTTP contendo o ID do Aluno a ser removido,
+     * chama o modelo para executar a remoção e retorna uma resposta indicando o
+     * sucesso ou falha da operação.
+     *
+     * @param {Request} req - Objeto de requisição HTTP, contendo os parâmetros da URL.
+     * @param {Response} res - Objeto de resposta HTTP para enviar os resultados da operação.
+     * 
+     * @returns {Promise<any>} - Retorna uma resposta HTTP com status e mensagem apropriados.
+     */
     static async remover(req: Request, res: Response): Promise<any> {
         try {
             // Recupera o ID do Aluno a partir dos parâmetros da requisição e converte para número.
@@ -114,6 +126,18 @@ export class AlunoController extends Aluno {
         }
     }
 
+    /**
+     * Atualiza os dados de um Aluno no banco de dados.
+     *
+     * Este método recebe uma requisição HTTP contendo os dados do Aluno a ser atualizado
+     * e chama o modelo para executar a atualização no banco de dados. Retorna uma resposta
+     * indicando o sucesso ou falha da operação.
+     *
+     * @param {Request} req - Objeto de requisição HTTP, contendo o corpo da requisição e os parâmetros da URL.
+     * @param {Response} res - Objeto de resposta HTTP para enviar os resultados da operação.
+     * 
+     * @returns {Promise<any>} - Retorna uma resposta HTTP com status e mensagem apropriados.
+     */
     static async atualizar(req: Request, res: Response): Promise<any> {
         try {
             // Recupera os dados do Aluno a serem atualizados do corpo da requisição.
@@ -137,7 +161,7 @@ export class AlunoController extends Aluno {
             // Chama o método do modelo para atualizar o Aluno e armazena a resposta (true ou false).
             const respostaModelo = await Aluno.atualizarAluno(alunoAtualizado);
 
-            // Verifica se a resposta do modelo indica que o aluno foi atualizado com sucesso.
+            // Verifica se a resposta do modelo indica que o Aluno foi atualizado com sucesso.
             if (respostaModelo) {
                 // Retorna uma resposta HTTP com status 200 e mensagem de sucesso.
                 return res.status(200).json({ mensagem: "Aluno atualizado com sucesso!" });
@@ -153,4 +177,5 @@ export class AlunoController extends Aluno {
             return res.status(400).json({ mensagem: "Não foi possível atualizar o Aluno. Entre em contato com o administrador." });
         }
     }
+
 }

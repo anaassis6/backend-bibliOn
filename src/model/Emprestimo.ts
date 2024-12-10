@@ -151,7 +151,7 @@ export class Emprestimo {
       * - Os dados retornados do banco de dados são usados para instanciar objetos da classe `Emprestimo`.
       * - Cada Emprestimo é adicionado a uma lista que será retornada ao final da execução.
       * - Se houver falha na consulta ao banco, a função captura o erro, exibe uma mensagem no console e retorna `null`.
-      */
+    */
     static async listarEmprestimos(): Promise<Array<Emprestimo> | null> {
         // objeto para armazenar a lista de Emprestimos
         const listaDeEmprestimos: Array<Emprestimo> = [];
@@ -189,27 +189,27 @@ export class Emprestimo {
         }
     }
     /**
-         * Realiza o cadastro de um Emprestimo no banco de dados.
-         * 
-         * Esta função recebe um objeto do tipo Emprestimo e insere seus dados (id_livro, id_aluno, data_emprestimo, data_devolucao, 
-         * status_emprestimo)
-         * na tabela emprestimo do banco de dados. O método retorna um valor booleano indicando se o cadastro 
-         * foi realizado com sucesso.
-         * @param {Emprestimo} emprestimo - Objeto contendo os dados do emprestimoVenda que será cadastrado. O objeto Emprestimo
-        deve conter os métodos getIdLivro(), getIdAluno(), getDataEmprestimo(), `getDataDevolucao(), getStatusEmprestimo()
-        que retornam os respectivos valores do emprestimo.
-         * @returns {Promise<boolean>} - Retorna true se o Emprestimo foi cadastrado com sucesso e false caso contrário.
-          Em caso de erro durante o processo, a função trata o erro e retorna false.
-         * @throws {Error} - Se ocorrer algum erro durante a execução do cadastro, uma mensagem de erro é exibida
-          no console junto com os detalhes do erro.
-         */
+    * Realiza o cadastro de um Emprestimo no banco de dados.
+    * 
+    * Esta função recebe um objeto do tipo Emprestimo e insere seus dados (id_livro, id_aluno, data_emprestimo, data_devolucao, 
+    * status_emprestimo)
+    * na tabela emprestimo do banco de dados. O método retorna um valor booleano indicando se o cadastro 
+    * foi realizado com sucesso.
+    * @param {Emprestimo} emprestimo - Objeto contendo os dados do emprestimoVenda que será cadastrado. O objeto Emprestimo
+    deve conter os métodos getIdLivro(), getIdAluno(), getDataEmprestimo(), `getDataDevolucao(), getStatusEmprestimo()
+    que retornam os respectivos valores do emprestimo.
+    * @returns {Promise<boolean>} - Retorna true se o Emprestimo foi cadastrado com sucesso e false caso contrário.
+    Em caso de erro durante o processo, a função trata o erro e retorna false.
+    * @throws {Error} - Se ocorrer algum erro durante a execução do cadastro, uma mensagem de erro é exibida
+    no console junto com os detalhes do erro.
+    */
     static async cadastroEmprestimo(emprestimo: Emprestimo): Promise<boolean> {
         try {
             // query para fazer insert de um Emprestimo no banco de dados
-            const queryInsertEmprestimo = `INSERT INTO emprestimo (id_livro, id_aluno, data_emprestimo, data_devolucao, status_emprestimo)
+            const queryInsertEmprestimo = `INSERT INTO emprestimo (id_aluno, id_livro, data_emprestimo, data_devolucao, status_emprestimo)
                                     VALUES
-                                    ('${emprestimo.getIdLivro()}', 
-                                    '${emprestimo.getIdAluno()}',
+                                    ('${emprestimo.getIdAluno()}', 
+                                    '${emprestimo.getIdLivro()}',
                                     '${emprestimo.getDataEmprestimo()}',
                                     '${emprestimo.getDataDevolucao()}',
                                     '${emprestimo.getStatusEmprestimo()}')
@@ -234,6 +234,51 @@ export class Emprestimo {
             // imprime o erro no console
             console.log(error);
             // retorno um valor falso
+            return false;
+        }
+    }
+
+    /**
+    * Atualiza os dados de um Emprestimo no banco de dados.
+    * 
+    * Este método recebe um objeto `Emprestimo` contendo os novos dados e executa uma query SQL
+    * para atualizar as informações no banco. Retorna `true` se a atualização foi bem-sucedida
+    * e `false` caso contrário.
+    *
+    * @param {Emprestimo} emprestimo - Objeto contendo os dados atualizados do Emprestimo.
+    * @returns {Promise<boolean>} - Retorna `true` se o Emprestimo foi atualizado com sucesso e `false` em caso de falha.
+    */
+    static async atualizarEmprestimo(emprestimo: Emprestimo): Promise<boolean> {
+        try {
+            // Cria uma query SQL para atualizar os dados do Emprestimo no banco de dados.
+            const queryUpdateEmprestimo = `UPDATE Emprestimo SET
+                                              id_aluno = '${emprestimo.getIdAluno()}',
+                                              id_livro = '${emprestimo.getIdLivro()}',
+                                              data_emprestimo = '${emprestimo.getDataEmprestimo()}',
+                                              data_devolucao = '${emprestimo.getDataDevolucao()}',
+                                              status_emprestimo = '${emprestimo.getStatusEmprestimo()}'   
+                                            WHERE id_emprestimo = ${emprestimo.getIdEmprestimo()};`;
+
+            // Executa a query no banco de dados e armazena a resposta.
+            const respostaBD = await database.query(queryUpdateEmprestimo);
+
+            // Verifica se alguma linha foi alterada pela operação de atualização.
+            if (respostaBD.rowCount != 0) {
+                // Loga uma mensagem de sucesso no console indicando que o Emprestimo foi atualizado.
+                console.log(`Emprestimo atualizado com sucesso! ID: ${emprestimo.getIdEmprestimo()}`);
+                // Retorna `true` para indicar sucesso na atualização.
+                return true;
+            }
+
+            // Retorna `false` se nenhuma linha foi alterada (atualização não realizada).
+            return false;
+
+        } catch (error) {
+            // Exibe uma mensagem de erro no console caso ocorra uma exceção.
+            console.log('Erro ao atualizar o Emprestimo. Verifique os logs para mais detalhes.');
+            // Loga o erro no console para depuração.
+            console.log(error);
+            // Retorna `false` indicando que a atualização falhou.
             return false;
         }
     }

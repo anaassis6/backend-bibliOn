@@ -129,6 +129,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ATUALIZAR LIVRO",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\": \"1984\",\r\n    \"autor\": \"George Orwell\",\r\n    \"editora\": \"Companhia das Letras\",\r\n    \"anoPublicacao\": \"1949\",\r\n    \"isbn\": \"978-8535906770\",\r\n    \"quantTotal\": \"5\",\r\n    \"quantDisponivel\": \"5\",\r\n    \"valorAquisicao\": 90.00,\r\n    \"statusLivroEmprestado\": \"Disponível\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/atualizar/livro/23",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"atualizar",
+								"livro",
+								"23"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -268,7 +298,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id_livro\": \"18\",\r\n    \"id_aluno\": \"27\",\r\n    \"data_emprestimo\": \"2024-12-03\",\r\n    \"data_devolucao\": \"2024-12-09\",\r\n    \"status_emprestimo\": \"Em andamento\"\r\n}",
+							"raw": "{\r\n    \"idAluno\": \"29\",\r\n    \"idLivro\": \"26\",\r\n    \"dataEmprestimo\": \"2024-12-03\",\r\n    \"dataDevolucao\": \"2024-12-09\",\r\n    \"statusEmprestimo\": \"Em andamento\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -285,6 +315,36 @@
 							"path": [
 								"novo",
 								"emprestimo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ATUALIZAR EMPRESTIMO",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idAluno\": \"1\",\r\n    \"idLivro\": \"1\",\r\n    \"dataEmprestimo\": \"2024-09-01\",\r\n    \"dataDevolucao\": \"2024-09-20\",\r\n    \"statusEmprestimo\": \"Em andamento\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3333/atualizar/emprestimo/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"atualizar",
+								"emprestimo",
+								"1"
 							]
 						}
 					},

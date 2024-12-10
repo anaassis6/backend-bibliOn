@@ -95,7 +95,18 @@ export class LivroController extends Livro {
             return res.status(400).json({ mensagem: "Não foi possível cadastrar o Livro. Entre em contato com o administrador do sistema." });
         }
     }
-
+    /**
+     * Remove um Livro do banco de dados.
+     *
+     * Este método recebe uma requisição HTTP contendo o ID do Livro a ser removido,
+     * chama o modelo para executar a remoção e retorna uma resposta indicando o
+     * sucesso ou falha da operação.
+     *
+     * @param {Request} req - Objeto de requisição HTTP, contendo os parâmetros da URL.
+     * @param {Response} res - Objeto de resposta HTTP para enviar os resultados da operação.
+     * 
+     * @returns {Promise<any>} - Retorna uma resposta HTTP com status e mensagem apropriados.
+     */
     static async remover(req: Request, res: Response): Promise<any> {
         try {
             // Recupera o ID do Livro a partir dos parâmetros da requisição e converte para número.
@@ -121,5 +132,58 @@ export class LivroController extends Livro {
         }
     }
 
+    /**
+    * Atualiza os dados de um Livro no banco de dados.
+    *
+    * Este método recebe uma requisição HTTP contendo os dados do Livro a ser atualizado
+    * e chama o modelo para executar a atualização no banco de dados. Retorna uma resposta
+    * indicando o sucesso ou falha da operação.
+    *
+    * @param {Request} req - Objeto de requisição HTTP, contendo o corpo da requisição e os parâmetros da URL.
+    * @param {Response} res - Objeto de resposta HTTP para enviar os resultados da operação.
+    * 
+    * @returns {Promise<any>} - Retorna uma resposta HTTP com status e mensagem apropriados.
+     */
+    static async atualizar(req: Request, res: Response): Promise<any> {
+        try {
+            // Recupera os dados do Livro a serem atualizados do corpo da requisição.
+            const livroRecebido: LivroDTO = req.body;
 
+            // Recupera o ID do Livro a ser atualizado a partir dos parâmetros da URL.
+            const idLivroRecebido = parseInt(req.params.idLivro as string);
+
+            // Cria um novo objeto `Livro` com os dados recebidos.
+            const livroAtualizado = new Livro(livroRecebido.titulo,
+                livroRecebido.autor,
+                livroRecebido.editora,
+                livroRecebido.anoPublicacao,
+                livroRecebido.isbn,
+                livroRecebido.quantTotal,
+                livroRecebido.quantDisponivel,
+                livroRecebido.valorAquisicao,
+                livroRecebido.statusLivroEmprestado
+            );
+
+            // Define o ID do Livro no objeto `livroAtualizado`.
+            livroAtualizado.setIdLivro(idLivroRecebido);
+
+            // Chama o método do modelo para atualizar o Livro e armazena a resposta (true ou false).
+            const respostaModelo = await Livro.atualizarLivro(livroAtualizado);
+
+            // Verifica se a resposta do modelo indica que o Livro foi atualizado com sucesso.
+            if (respostaModelo) {
+                // Retorna uma resposta HTTP com status 200 e mensagem de sucesso.
+                return res.status(200).json({ mensagem: "Livro atualizado com sucesso!" });
+            } else {
+                // Retorna uma resposta HTTP com status 400 e mensagem de erro.
+                return res.status(400).json({ mensagem: "Não foi possível atualizar o Livro. Entre em contato com o administrador." });
+            }
+        } catch (error) {
+            // Loga o erro no console para depuração.
+            console.log(`Erro ao atualizar o Livro: ${error}`);
+
+            // Retorna uma resposta HTTP com status 400 e mensagem de erro genérica.
+            return res.status(400).json({ mensagem: "Não foi possível atualizar o Livro. Entre em contato com o administrador." });
+        }
+    }
 }
